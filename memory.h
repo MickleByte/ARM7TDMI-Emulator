@@ -1,11 +1,3 @@
-//Memory object definition
-
-//Program counter
-//Get next instruction
-//Move program counter
-//Increment program counter
-//Branch to (label)
-
 #pragma once
 #include <string>
 #include "register.h"
@@ -19,8 +11,8 @@ public:
 
 class Memory{
 private:
-  std::vector<std::string> mem;
-  Register* registers;
+  std::vector<std::string> mem; //Memory is a vector of strings
+  Register* registers; //Registers as an array of registers
   PC pc;
 public:
   Memory();
