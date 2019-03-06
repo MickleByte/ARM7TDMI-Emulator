@@ -6,20 +6,25 @@
 //Increment program counter
 //Branch to (label)
 
+#pragma once
 #include <string>
 #include "register.h"
+#include <vector>
 
 class PC : public Register{
 public:
   void increment();
   void increment(int amount);
-}
+};
 
 class Memory{
 private:
-  std::string* mem;
-  Register pc;
+  std::vector<std::string> mem;
+  Register* registers;
+  PC pc;
 public:
+  Memory();
+  ~Memory();
   std::string getNextInstruction();
-  std::string branchTo(std::string label);
-}
+  bool branchTo(std::string label);
+};
