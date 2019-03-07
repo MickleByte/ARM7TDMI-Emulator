@@ -5,10 +5,10 @@
 
 int main(){
   ControlUnit* cu = new ControlUnit();
-  ALU alu;
+  // ALU alu;
+  // std::cout << alu.Control("ADD", 1, 2, new Register) << std::endl;
 
   for(int i = 0; i < 3; i++){
-    std::cout << "Intruction " << i << std::endl;
     cu->Decode(cu->FetchNext());
   }
 

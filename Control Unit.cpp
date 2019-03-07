@@ -1,4 +1,3 @@
-#pragma once
 #include "ControlUnit.h"
 #include <fstream>
 #include <iostream>
@@ -48,23 +47,26 @@ vector<string> ControlUnit::ReadFile(string path) {
 }
 
 void ControlUnit::Decode(string ListOfIns) {
-	vector<string> SepIns;
+	string SepIns[3];
 	string op = "";
 
+	int i = 0;
 	for (string::iterator it = ListOfIns.begin(); it != ListOfIns.end(); it++) {
 		if (*it == ' ') {
-			SepIns.push_back(op);
+			SepIns[i] = op;
 			op = "";
+			i++;
 		}
 		else {
 			op += *it;
 		}
 	}
+	SepIns[i] = op;
 
-	cout << SepIns[0] << endl;
+	cout << SepIns[0] << " " << SepIns[1] << " " << SepIns[2] << endl;
+	// alu->Control(SepIns[0], stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]);
 	cout << alu->Control(SepIns[0], stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]) << endl;
 
-	SepIns.clear();
 }
 
 string ControlUnit::FetchNext(){
