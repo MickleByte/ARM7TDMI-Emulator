@@ -9,9 +9,9 @@ std::bitset<32> ConvertToBinary(int val)
 	return BinVal;
 }
 
-bool TestADD(ControlUnit* TestCu, ALU TestALU, std::string &ErrorComment) 
+bool TestADD(ControlUnit* TestCu, ALU TestALU, std::string &ErrorComment)
 {
-	bool ErrorFlag = false;	
+	bool ErrorFlag = false;
 	int TestResult;
 
 	//Test ADD Function
@@ -39,7 +39,7 @@ bool TestADD(ControlUnit* TestCu, ALU TestALU, std::string &ErrorComment)
 
 	//adding 1 to max value (2^32) to cause overflow
 	std::bitset<32> OldbCPSR = ConvertToBinary(TestCu->getRegister(31));
-	TestResult = TestALU.Control("ADD", INT_MAX, 1, TestCu);	
+	TestResult = TestALU.Control("ADD", INT_MAX, 1, TestCu);
 	std::bitset<32> NewbCPSR = ConvertToBinary(TestCu->getRegister(31));
 
 	if (!((TestResult == (INT_MIN)) && (OldbCPSR.test(28) != NewbCPSR.test(28))))
@@ -212,12 +212,12 @@ bool TestEOR(ControlUnit* TestCu, ALU TestALU, std::string &ErrorComment)
 }
 
 
-bool TestORR(ControlUnit* TestCu, ALU TestALU, std::string &ErrorComment) 
+bool TestORR(ControlUnit* TestCu, ALU TestALU, std::string &ErrorComment)
 {
 	bool ErrorFlag = false;
 
 	if (!(TestALU.Control("ORR", 1431655765, -1431655766, TestCu) == -1))
-	{		
+	{
 		ErrorComment.append("Error in Test 1 \n");
 		ErrorFlag = true;
 	}
@@ -228,7 +228,7 @@ bool TestORR(ControlUnit* TestCu, ALU TestALU, std::string &ErrorComment)
 		ErrorComment.append("Error in test 2\n");
 	}
 
-	
+
 
 	return ErrorFlag;
 }
@@ -242,18 +242,18 @@ bool TestCMP(ControlUnit* TestCu, ALU TestALU, std::string &ErrorComment)
 	TestCu->setRegister(31, 0); // set CPSR to 0
 
 
-	std::bitset<32> OldbCPSR = ConvertToBinary(TestCu->getRegister(31));
-	TestResult = TestALU.Control("CMP", 2, 2, TestCu);
-	std::bitset<32> NewbCPSR = ConvertToBinary(TestCu->getRegister(31));
+	std::bitset<32> OldbCPSR = ConvertToBinary(TestCu->getRegister(31)); //Default status register state (all 0)
+	TestResult = TestALU.Control("CMP", 2, 2, TestCu); //Compare 2 numbers
+	std::bitset<32> NewbCPSR = ConvertToBinary(TestCu->getRegister(31)); //New statuts register state (contains output)
 
-	if (!(OldbCPSR.test(30) != NewbCPSR.test(30)))
+	if (!(OldbCPSR.test(30) != NewbCPSR.test(30))) //If there's no change and no output (expected output is 1)
 	{
 		ErrorFlag = true;
 		ErrorComment.append("Error with CMP test 1 \n");
 	}
 
 	TestCu->setRegister(31, 0);
-	
+
 
 
 
@@ -276,21 +276,21 @@ bool TestCMP(ControlUnit* TestCu, ALU TestALU, std::string &ErrorComment)
 
 
 
-void RunALUTests() 
+void RunALUTests()
 {
-	bool ErrorFlag = false;	
+	bool ErrorFlag = false;
 	ALU TestALU;
 	ControlUnit* TestCu = new ControlUnit();;
 	std::string ErrorComment;
-	
-	if (TestADD(TestCu, TestALU, ErrorComment)) 
+
+	if (TestADD(TestCu, TestALU, ErrorComment))
 	{
 		std::cout << "Error(s) in ADD function testing" << std::endl;
 		std::cout << ErrorComment << std::endl;
 		ErrorFlag = true;
 		ErrorComment = "";
 	}
-	
+
 	if (TestSUB(TestCu, TestALU, ErrorComment))
 	{
 		std::cout << "Error(s) in SUB function testing" << std::endl;
@@ -339,18 +339,18 @@ void RunALUTests()
 		ErrorComment = "";
 	}
 
-	if (!ErrorFlag) 
+	if (!ErrorFlag)
 	{
 		std::cout << "All ALU tests run without error" << std::endl;
 	}
 
 }
 
-int main() 
+int main()
 {
 	//Perform Tests on ALU
 	RunALUTests();
-	
+
 
 
 	system("Pause");

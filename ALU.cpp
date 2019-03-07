@@ -1,12 +1,14 @@
+#pragma once
 #include "pch.h"
 #include "ALU.h"
-
+#include "register.h"
 
 //Public:
 	//Control Function
 int ALU::Control(std::string Opcode, int Operand1, int Operand2, Register* CPSR)
 {
 	int ReturnVal = 0;
+	std::cout << Opcode << std::endl;
 	if (Opcode == "ADD")
 	{
 		ValidateADD(CPSR, Operand1, Operand2);
