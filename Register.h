@@ -1,6 +1,6 @@
 #pragma once
 class Register {
-private:
+protected:
 	int data; //The value of this register
 public:
 	int get(); //Get the value of this register
