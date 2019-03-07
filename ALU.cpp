@@ -1,3 +1,4 @@
+#pragma once
 #include "ALU.h"
 #include "controlUnit.h"
 
@@ -7,7 +8,7 @@
 	 int ALU::Control(std::string Opcode,  int Operand1,  int Operand2, ControlUnit* cu)
 	{
 		int ReturnVal = 0;
-		if (Opcode == "ADD") 
+		if (Opcode == "ADD")
 		{
 			ValidateADD(cu, Operand1, Operand2);
 			ReturnVal = ADD(Operand1, Operand2);
@@ -44,7 +45,7 @@
 
 //Private:
 	//Core ALU Functions
-	 int ALU::ADD( int Operand1,  int Operand2) 
+	 int ALU::ADD( int Operand1,  int Operand2)
 	{
 		 int result = 0;
 		result = Operand1 + Operand2;
@@ -99,7 +100,7 @@
 	}
 
 	void ALU::CMP( int Operand1,  int Operand2, ControlUnit* cu)
-	{		
+	{
 		 int iCPSR = cu->getRegister(31); // get int val of CPSR (R31)
 		std::bitset<32> bCPSR = ConvertToBinary(iCPSR); // converts int val of CPSR to binary value
 
@@ -107,11 +108,11 @@
 		int difference = SUB(Operand1, Operand2); // gets difference of operand 1 or 2
 		if (difference == 0) //if difference is 0, operands are equal
 		{
-			bCPSR.set(30, true); // change 30th bit (zero flag) of CPSR to True 
+			bCPSR.set(30, true); // change 30th bit (zero flag) of CPSR to True
 		}
 		else // operands are not equal
 		{
-			bCPSR.set(30, false); // change 30th bit (zero flag) of CPSR to False 
+			bCPSR.set(30, false); // change 30th bit (zero flag) of CPSR to False
 		}
 
 		iCPSR = ( int)(bCPSR.to_ulong()); // convert back to int
@@ -131,10 +132,10 @@
 		 int iCPSR = cu->getRegister(31); // get int val of CPSR (R31)
 		std::bitset<32> bCPSR = ConvertToBinary(iCPSR); // converts int val of CPSR to binary value
 
-		 
 
-		
-		 if (((Operand2 > 0) && (Operand1 > (INT_MAX - Operand2))) || ((Operand2 < 0) && (Operand1 < (INT_MIN - Operand2)))) 
+
+
+		 if (((Operand2 > 0) && (Operand1 > (INT_MAX - Operand2))) || ((Operand2 < 0) && (Operand1 < (INT_MIN - Operand2))))
 		 {
 			 bCPSR.set(28, true); // set overflow flag to TRUE
 		 }
@@ -179,4 +180,3 @@
 		iCPSR = ( int)(bCPSR.to_ulong()); // convert back to int
 		cu->setRegister(31, iCPSR); // set CPSR to new value
 	}
-

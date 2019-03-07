@@ -1,3 +1,5 @@
+#pragma once
+
 class Register{
 protected:
   int data; //The value of this register
