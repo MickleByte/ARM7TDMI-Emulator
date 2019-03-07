@@ -2,13 +2,15 @@
 #include <vector>
 #include <string>
 #include "Register.h"
+#include "Memory.h"
 #include "ALU.h"
 using namespace std;
 
 class ControlUnit {
 private:
-	Register* registerArray;
-	ALU alu;
+	vector<Register*> registerArray;
+	ALU* alu;
+	Memory mem;
 
 	//0 - 30 are general-purpose registers
 	//31 - 36 are status registers
@@ -19,5 +21,6 @@ public:
 	ControlUnit();
 	~ControlUnit();
 	vector<string> ReadFile(string);
-	void Decode(vector<string>);
+	string FetchNext();
+	void Decode(string);
 };

@@ -1,6 +1,7 @@
+#pragma once
 #include "pch.h"
 #include "ALU.h"
-
+#include "register.h"
 
 //Public:
 	//Control Function
