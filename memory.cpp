@@ -14,7 +14,7 @@ Memory::Memory(){ //Constructor for Memory object
     std::string next;
     int length = 0;
     while(std::getline(file, next)){
-      mem.push_back(next); //Push instruction
+      program.push_back(next); //Push instruction
       length++;
     }
   }
