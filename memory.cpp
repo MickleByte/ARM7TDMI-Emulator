@@ -27,6 +27,6 @@ Memory::~Memory(){
 
 std::string Memory::getNextInstruction(int pc){
   std::cout << "Getting instruction at " << pc << std::endl;
-  std::string nextInstruction = mem.at(pc); //Next instruction to execute is at position stored at PC
+  std::string nextInstruction = program.at(pc); //Next instruction to execute is at position stored at PC
   return nextInstruction;
 };
