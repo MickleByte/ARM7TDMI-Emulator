@@ -47,8 +47,10 @@ vector<string> ControlUnit::ReadFile(string path) {
 }
 
 void ControlUnit::Decode(string ListOfIns) {
-	string SepIns[3];
+	string SepIns[4];
 	string op = "";
+	int result;
+	SepIns[3] = "none";
 
 	int i = 0;
 	for (string::iterator it = ListOfIns.begin(); it != ListOfIns.end(); it++) {
@@ -64,15 +66,20 @@ void ControlUnit::Decode(string ListOfIns) {
 	SepIns[i] = op;
 
 	if (SepIns[0] == "STR") {
-		setMemory(SepIns[1], getRegister(SepIns[2]));
+		mem.setMemory(stoi(SepIns[1]), getRegister(stoi(SepIns[2])));
 	}
 	else if (SepIns[0] == "LDR") {
-		setRegister(SepIns[2]), getMemory(SepIns[1]));
+		setRegister(stoi(SepIns[2]), mem.getMemory(stoi(SepIns[1])));
 	}
 	else {
 		cout << SepIns[0] << " " << SepIns[1] << " " << SepIns[2] << endl;
 		// alu->Control(SepIns[0], stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]);
-		cout << alu->Control(SepIns[0], stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]) << endl;
+		result = alu->Control(SepIns[0], stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]);
+		cout << result << endl;
+	}
+	if(SepIns[3] != "none"){
+		setRegister(stoi(SepIns[3]), result);
+		cout << "Stored in r" << SepIns[3] << endl;
 	}
 }
 

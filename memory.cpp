@@ -19,7 +19,7 @@ Memory::Memory(){ //Constructor for Memory object
     }
   }
   file.close(); //Close file after use
-  
+
   mem.reserve(1024);
 };
 
@@ -37,6 +37,6 @@ int Memory::getMemory(int location) {
   return mem[location];
 };
 
-void setMemory(int location, int value) {
+void Memory::setMemory(int location, int value) {
   mem[location] = value;
 };

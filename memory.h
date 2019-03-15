@@ -5,8 +5,8 @@
 
 class Memory{
 private:
-  std::vector<std::string> program; //Memory is a vector of strings
-  std::vector<int> mem; //Memory is a vector of strings
+  std::vector<std::string> program; //Program is a vector of strings
+  std::vector<int> mem; //Memory is a vector of ints
 public:
   Memory();
   ~Memory();
