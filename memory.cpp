@@ -19,6 +19,8 @@ Memory::Memory(){ //Constructor for Memory object
     }
   }
   file.close(); //Close file after use
+  
+  mem.reserve(1024);
 };
 
 Memory::~Memory(){
@@ -29,4 +31,12 @@ std::string Memory::getNextInstruction(int pc){
   std::cout << "Getting instruction at " << pc << std::endl;
   std::string nextInstruction = program.at(pc); //Next instruction to execute is at position stored at PC
   return nextInstruction;
+};
+
+int Memory::getMemory(int location) {
+  return mem[location];
+};
+
+void setMemory(int location, int value) {
+  mem[location] = value;
 };
