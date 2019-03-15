@@ -12,4 +12,6 @@ public:
   ~Memory();
   std::string getNextInstruction(int pc);
   bool branchTo(std::string label);
+  int getMemory(int location);
+  void setMemory(int location, int value);
 };
