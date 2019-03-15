@@ -64,10 +64,10 @@ void ControlUnit::Decode(string ListOfIns) {
 	SepIns[i] = op;
 
 	if (SepIns[0] == "STR") {
-		mem[SepIns[1]] = getRegister(SepIns[2]);
+		setMemory(SepIns[1], getRegister(SepIns[2]));
 	}
 	else if (SepIns[0] == "LDR") {
-		setRegister(SepIns[2]), mem[SepIns[1]);
+		setRegister(SepIns[2]), getMemory(SepIns[1]));
 	}
 	else {
 		cout << SepIns[0] << " " << SepIns[1] << " " << SepIns[2] << endl;
