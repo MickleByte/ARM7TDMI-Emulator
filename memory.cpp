@@ -14,11 +14,13 @@ Memory::Memory(){ //Constructor for Memory object
     std::string next;
     int length = 0;
     while(std::getline(file, next)){
-      mem.push_back(next); //Push instruction
+      program.push_back(next); //Push instruction
       length++;
     }
   }
   file.close(); //Close file after use
+
+  mem.reserve(1024);
 };
 
 Memory::~Memory(){
@@ -27,6 +29,14 @@ Memory::~Memory(){
 
 std::string Memory::getNextInstruction(int pc){
   std::cout << "Getting instruction at " << pc << std::endl;
-  std::string nextInstruction = mem.at(pc); //Next instruction to execute is at position stored at PC
+  std::string nextInstruction = program.at(pc); //Next instruction to execute is at position stored at PC
   return nextInstruction;
+};
+
+int Memory::getMemory(int location) {
+  return mem[location];
+};
+
+void Memory::setMemory(int location, int value) {
+  mem[location] = value;
 };
