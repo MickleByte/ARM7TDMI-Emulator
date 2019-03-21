@@ -8,7 +8,7 @@ int main(){
   // ALU alu;
   // std::cout << alu.Control("ADD", 1, 2, new Register) << std::endl;
 
-  for(int i = 0; i < cu->programLength; i++){
+  for(int i = 0; cu->getRegister(15) < cu->programLength; i++){
     cu->Decode(cu->FetchNext());
   }
 

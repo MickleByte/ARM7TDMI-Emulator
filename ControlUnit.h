@@ -24,8 +24,10 @@ public:
 	string FetchNext();
 	void Decode(string);
 	int programLength;
+	std::bitset<32> ConvertToBinary(int val);
 
-	int ValidateInstructionCondition(string PotentialInstruct, string* instructionOut, string* conditionOut);
+	int ValidateInstructionCondition(string PotentialInstruct);
 	bool ValidCondition(string condition);
 	bool ValidInstruction(string instruction);
+	bool checkConditionFlag(std::string condition);
 };

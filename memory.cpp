@@ -45,16 +45,16 @@ void Memory::setMemory(int location, int value) {
   mem[location] = value;
 };
 
-bool Memory::branchTo(std::string label, PC pc){
-  std::cout << "Searching for label #" << label << std::endl;
-  bool labelFound = false;
+bool Memory::branchTo(std::string label, Register* pc){
+  std::cout << "Searching for label: " << label << std::endl;
   int index = 0;
   for(auto it = program.begin(); it != program.end(); it++){
     if(*it == label){
-      labelFound = true;
-      pc.set(index);
+      pc->set(index+1);
+      std::cout << "Label found at " << index << std::endl;
+      return true;
     }
     index++;
   }
-  return labelFound;
+  return false;
 };

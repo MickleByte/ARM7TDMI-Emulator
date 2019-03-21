@@ -13,7 +13,7 @@ public:
   ~Memory();
   int getProgramLength();
   std::string getNextInstruction(int pc);
-  bool branchTo(std::string label, PC pc);
+  bool branchTo(std::string label, Register* pc);
   int getMemory(int location);
   void setMemory(int location, int value);
 };

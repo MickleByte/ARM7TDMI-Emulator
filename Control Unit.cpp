@@ -67,18 +67,40 @@ void ControlUnit::Decode(string ListOfIns) {
 	}
 	SepIns[i] = op;
 
+	//execute
+	int validationResult = ValidateInstructionCondition(SepIns[0]);
+	std::string instruction = SepIns[0];
+	std::string condition = "";
 
-	std::string instruction;
-	std::string condition;
-	switch(ValidateInstructionCondition(SepIns[0], &instruction, &condition)){
+	switch(validationResult){
 		case 0:
 			//both valid
-
-		break;
-
+				condition = SepIns[0].substr(SepIns[0].length() - 2); // last 2 letters
+				instruction = SepIns[0].substr(0, SepIns[0].size() - 2); // all but last 2 letters
+			if(!checkConditionFlag(condition)){
+				break;
+			}
 		case 1:
 			//Instruction valid but not condition
-
+			if (instruction == "STR") {
+				mem.setMemory(stoi(SepIns[1]), getRegister(stoi(SepIns[2])));
+			}
+			else if (instruction == "LDR") {
+				setRegister(stoi(SepIns[2]), mem.getMemory(stoi(SepIns[1])));
+			}
+			else if (instruction == "B"){
+				mem.branchTo(SepIns[1], registerArray[15]);
+			}
+			else {
+				cout << instruction << " " << SepIns[1] << " " << SepIns[2] << endl;
+				// alu->Control(SepIns[0], stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]);
+				result = alu->Control(instruction, stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]);
+				cout << result << endl;
+			}
+			if(SepIns[3] != "none"){
+				setRegister(stoi(SepIns[3]), result);
+				cout << "Stored in r" << SepIns[3] << endl;
+			}
 		break;
 
 		case 2:
@@ -86,23 +108,84 @@ void ControlUnit::Decode(string ListOfIns) {
 
 		break;
 	}
+}
 
-	//execute
-	if (SepIns[0] == "STR") {
-		mem.setMemory(stoi(SepIns[1]), getRegister(stoi(SepIns[2])));
+std::bitset<32> ControlUnit::ConvertToBinary(int val)
+{
+	std::bitset<32> BinVal = val; // convert int val to 32 bit binary num
+	return BinVal;
+}
+
+bool ControlUnit::checkConditionFlag(std::string condition){
+	int iCPSR = registerArray[15]->get(); // get int val of CPSR (R31)
+	std::bitset<32> bCPSR = ConvertToBinary(iCPSR); // converts int val of CPSR to binary value
+
+	//31 - N - Negative
+	//30 - Z - Zero
+	//29 - C - Carry
+	//28 - V - Overflow
+
+	if("NE"){ //Not Equal
+		if(bCPSR[30] == 0) return true;
+		else return false;
 	}
-	else if (SepIns[0] == "LDR") {
-		setRegister(stoi(SepIns[2]), mem.getMemory(stoi(SepIns[1])));
+	else if("EQ"){ //Equal
+		if(bCPSR[30] == 1) return true;
+		else return false;
 	}
-	else {
-		cout << SepIns[0] << " " << SepIns[1] << " " << SepIns[2] << endl;
-		// alu->Control(SepIns[0], stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]);
-		result = alu->Control(SepIns[0], stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]);
-		cout << result << endl;
+	else if("CS"){ //Carry set
+		if(bCPSR[29] == 1) return true;
+		else return false;
 	}
-	if(SepIns[3] != "none"){
-		setRegister(stoi(SepIns[3]), result);
-		cout << "Stored in r" << SepIns[3] << endl;
+	else if("CC"){ //Carry unset
+		if(bCPSR[29] == 0) return true;
+		else return false;
+	}
+	else if("MI"){ //Minus/negative
+		if(bCPSR[31] == 1) return true;
+		else return false;
+	}
+	else if("PL"){ //Positive/zero
+		if(bCPSR[31] == 0) return true;
+		else return false;
+	}
+	else if("VS"){ //Overflow set
+		if(bCPSR[28] == 1) return true;
+		else return false;
+	}
+	else if("VC"){ //Overflow unset
+		if(bCPSR[28] == 0) return true;
+		else return false;
+	}
+	else if("HI"){ //Unsigned higher
+		if(bCPSR[29] == 1 && bCPSR[30] == 0) return true;
+		else return false;
+	}
+	else if("LS"){ //Unsigned lower or equal
+		if(bCPSR[30] == 1 && bCPSR[29] == 0) return true;
+		else return false;
+	}
+	else if("GE"){ //Signed greater than or equal
+		if(bCPSR[31] == bCPSR[28]) return true;
+		else return false;
+	}
+	else if("LT"){ //Signed less than
+		if(bCPSR[31] != bCPSR[28]) return true;
+		else return false;
+	}
+	else if("GT"){ //Signed greater than
+		if(bCPSR[30] == 0 && (bCPSR[31] == bCPSR[28])) return true;
+		else return false;
+	}
+	else if("LE"){ //Signed less than or equal
+		if(bCPSR[30] == 1 && (bCPSR[31] != bCPSR[28])) return true;
+		else return false;
+	}
+	else if("AL"){ //Unconditional
+		return true;
+	}
+	else{
+		return false;
 	}
 }
 
@@ -127,6 +210,7 @@ bool ControlUnit::ValidCondition(string condition)
 	}
 	return false;
 }
+
 bool ControlUnit::ValidInstruction(string instruction)
 {
 	//list of all valid ARM Instructions for ARM7TDMI (According to technical reference manual)
@@ -143,25 +227,25 @@ bool ControlUnit::ValidInstruction(string instruction)
 	return false;
 }
 
-int ControlUnit::ValidateInstructionCondition(string CondAndInstr, string *instructionOut, string *conditionOut)
+int ControlUnit::ValidateInstructionCondition(string CondAndInstr)
 {
 	string condition = CondAndInstr.substr(CondAndInstr.length() - 2); // last 2 letters
 	string Instruction = CondAndInstr.substr(0, CondAndInstr.size() - 2); // all but last 2 letters
 
 	bool ValidCond = ValidCondition(condition); // true if valid condition, false if invalid
+	if(!ValidCond){
+		Instruction = CondAndInstr;
+	}
 	bool ValidInstr = ValidInstruction(Instruction);
 
 	if (ValidCond && ValidInstr)
 	{
 		// check condition then run instruction if true
-		instructionOut = &Instruction;
-		conditionOut = &condition;
 		return 0;
 	}
 	else if (!ValidCond && ValidInstr)
 	{
 		// run instruction only
-		instructionOut = &Instruction;
 		return 1;
 	}
 	else
