@@ -1,3 +1,4 @@
+#pragma once
 #include "controlUnit.h"
 
 void ControlUnit::setRegister(int registerNumber, int data){

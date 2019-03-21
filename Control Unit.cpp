@@ -79,13 +79,13 @@ string ControlUnit::FetchNext(){
 
 
 
-bool ControlUnit::ValidCondition(string condition) 
+bool ControlUnit::ValidCondition(string condition)
 {
 	//list of all valid conditions for ARM7TDMI (According to technical reference manual)
 	vector<string> ValidConditions = {"EQ", "NE", "CS", "CC", "MI", "PL", "VS", "VC", "HI", "LS", "GE", "LT", "GT", "LE", "AL"};
-	
+
 	//Iterate through valid conditions
-	for (int i = 0; i < ValidConditions.size(); i++) 
+	for (int i = 0; i < ValidConditions.size(); i++)
 	{
 		if (condition == ValidConditions[i]) // if match found
 		{
@@ -94,7 +94,7 @@ bool ControlUnit::ValidCondition(string condition)
 	}
 	return false;
 }
-bool ControlUnit::ValidInstruction(string instruction) 
+bool ControlUnit::ValidInstruction(string instruction)
 {
 	//list of all valid ARM Instructions for ARM7TDMI (According to technical reference manual)
 	vector<string> ValidInstructions = { "MOV", "SUB", "ADD", "MUL", "CMP", "AND", "EOR", "ORR", "B", "BL", "BX", /* "LDR", "STR", "LDC", "MVN", "MRS", "MSR",  "ADC" , "SBC", "RSB" */};
@@ -132,4 +132,3 @@ void ControlUnit::ValidateInstructionCondition(string CondAndInstr)
 	}
 
 }
-
