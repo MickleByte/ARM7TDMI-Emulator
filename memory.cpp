@@ -12,10 +12,9 @@ Memory::Memory(){ //Constructor for Memory object
   }
   else{
     std::string next;
-    int length = 0;
     while(std::getline(file, next)){
       program.push_back(next); //Push instruction
-      length++;
+      programLength++;
     }
   }
   file.close(); //Close file after use
@@ -23,8 +22,13 @@ Memory::Memory(){ //Constructor for Memory object
   mem.reserve(1024);
 };
 
+int Memory::getProgramLength(){
+  return programLength;
+}
+
 Memory::~Memory(){
   delete &mem; //Prevent memory leak
+  delete &program;
 };
 
 std::string Memory::getNextInstruction(int pc){
@@ -39,4 +43,18 @@ int Memory::getMemory(int location) {
 
 void Memory::setMemory(int location, int value) {
   mem[location] = value;
+};
+
+bool Memory::branchTo(std::string label, PC pc){
+  std::cout << "Searching for label #" << label << std::endl;
+  bool labelFound = false;
+  int index = 0;
+  for(auto it = program.begin(); it != program.end(); it++){
+    if(*it == label){
+      labelFound = true;
+      pc.set(index);
+    }
+    index++;
+  }
+  return labelFound;
 };

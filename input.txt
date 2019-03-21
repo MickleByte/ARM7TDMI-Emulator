@@ -1,3 +1,6 @@
 ADD 1 2 1
+CMP 1 2
+B #label
 SUB 4 1 2
+#label
 MUL 2 2 3

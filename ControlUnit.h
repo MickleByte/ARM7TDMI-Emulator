@@ -23,8 +23,9 @@ public:
 	vector<string> ReadFile(string);
 	string FetchNext();
 	void Decode(string);
+	int programLength;
 
-	void ValidateInstructionCondition(string PotentialInstruct);
+	int ValidateInstructionCondition(string PotentialInstruct, string* instructionOut, string* conditionOut);
 	bool ValidCondition(string condition);
 	bool ValidInstruction(string instruction);
 };
