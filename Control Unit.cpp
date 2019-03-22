@@ -71,15 +71,20 @@ void ControlUnit::Decode(string ListOfIns) {
 	int validationResult = ValidateInstructionCondition(SepIns[0]);
 	std::string instruction = SepIns[0];
 	std::string condition = "";
+	bool conditionResult = false;
 
 	switch(validationResult){
 		case 0:
 			//both valid
-				condition = SepIns[0].substr(SepIns[0].length() - 2); // last 2 letters
-				instruction = SepIns[0].substr(0, SepIns[0].size() - 2); // all but last 2 letters
-			if(!checkConditionFlag(condition)){
+			condition = SepIns[0].substr(SepIns[0].length() - 2); // last 2 letters
+			instruction = SepIns[0].substr(0, SepIns[0].size() - 2); // all but last 2 letters
+			conditionResult = checkConditionFlag(condition);
+			std::cout << "Checking condition: " << condition << std::endl;
+			if(!conditionResult){
+				std::cout << "Condition returned false" << std::endl;
 				break;
 			}
+			std::cout << "Condition returned true" << std::endl;
 		case 1:
 			//Instruction valid but not condition
 			if (instruction == "STR") {
@@ -95,6 +100,9 @@ void ControlUnit::Decode(string ListOfIns) {
 				cout << instruction << " " << SepIns[1] << " " << SepIns[2] << endl;
 				// alu->Control(SepIns[0], stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]);
 				result = alu->Control(instruction, stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]);
+				if(instruction == "CMP"){
+					registerArray[31]->set(result);
+				}
 				cout << result << endl;
 			}
 			if(SepIns[3] != "none"){
@@ -117,7 +125,7 @@ std::bitset<32> ControlUnit::ConvertToBinary(int val)
 }
 
 bool ControlUnit::checkConditionFlag(std::string condition){
-	int iCPSR = registerArray[15]->get(); // get int val of CPSR (R31)
+	int iCPSR = registerArray[31]->get(); // get int val of CPSR (R31)
 	std::bitset<32> bCPSR = ConvertToBinary(iCPSR); // converts int val of CPSR to binary value
 
 	//31 - N - Negative
@@ -125,68 +133,52 @@ bool ControlUnit::checkConditionFlag(std::string condition){
 	//29 - C - Carry
 	//28 - V - Overflow
 
-	if("NE"){ //Not Equal
-		if(bCPSR[30] == 0) return true;
-		else return false;
+	if(condition == "NE"){ //Not Equal
+		if(!bCPSR[30]) return true;
 	}
-	else if("EQ"){ //Equal
-		if(bCPSR[30] == 1) return true;
-		else return false;
+	else if(condition == "EQ"){ //Equal
+		if(bCPSR[30]) return true;
 	}
-	else if("CS"){ //Carry set
-		if(bCPSR[29] == 1) return true;
-		else return false;
+	else if(condition == "CS"){ //Carry set
+		if(bCPSR[29]) return true;
 	}
-	else if("CC"){ //Carry unset
-		if(bCPSR[29] == 0) return true;
-		else return false;
+	else if(condition == "CC"){ //Carry unset
+		if(!bCPSR[29]) return true;
 	}
-	else if("MI"){ //Minus/negative
-		if(bCPSR[31] == 1) return true;
-		else return false;
+	else if(condition == "MI"){ //Minus/negative
+		if(bCPSR[31]) return true;
 	}
-	else if("PL"){ //Positive/zero
-		if(bCPSR[31] == 0) return true;
-		else return false;
+	else if(condition == "PL"){ //Positive/zero
+		if(!bCPSR[31]) return true;
 	}
-	else if("VS"){ //Overflow set
-		if(bCPSR[28] == 1) return true;
-		else return false;
+	else if(condition == "VS"){ //Overflow set
+		if(bCPSR[28]) return true;
 	}
-	else if("VC"){ //Overflow unset
-		if(bCPSR[28] == 0) return true;
-		else return false;
+	else if(condition == "VC"){ //Overflow unset
+		if(!bCPSR[28]) return true;
 	}
-	else if("HI"){ //Unsigned higher
-		if(bCPSR[29] == 1 && bCPSR[30] == 0) return true;
-		else return false;
+	else if(condition == "HI"){ //Unsigned higher
+		if(bCPSR[29] && !bCPSR[30]) return true;
 	}
-	else if("LS"){ //Unsigned lower or equal
-		if(bCPSR[30] == 1 && bCPSR[29] == 0) return true;
-		else return false;
+	else if(condition == "LS"){ //Unsigned lower or equal
+		if(bCPSR[30] && !bCPSR[29]) return true;
 	}
-	else if("GE"){ //Signed greater than or equal
+	else if(condition == "GE"){ //Signed greater than or equal
 		if(bCPSR[31] == bCPSR[28]) return true;
-		else return false;
 	}
-	else if("LT"){ //Signed less than
+	else if(condition == "LT"){ //Signed less than
 		if(bCPSR[31] != bCPSR[28]) return true;
-		else return false;
 	}
-	else if("GT"){ //Signed greater than
-		if(bCPSR[30] == 0 && (bCPSR[31] == bCPSR[28])) return true;
-		else return false;
+	else if(condition == "GT"){ //Signed greater than
+		if(!bCPSR[30] && (bCPSR[31] == bCPSR[28])) return true;
 	}
-	else if("LE"){ //Signed less than or equal
-		if(bCPSR[30] == 1 && (bCPSR[31] != bCPSR[28])) return true;
-		else return false;
+	else if(condition == "LE"){ //Signed less than or equal
+		if(bCPSR[30] && (bCPSR[31] != bCPSR[28])) return true;
 	}
-	else if("AL"){ //Unconditional
+	else if(condition == "AL"){ //Unconditional
 		return true;
 	}
-	else{
-		return false;
-	}
+	return false;
 }
 
 string ControlUnit::FetchNext(){
