@@ -2,6 +2,10 @@
 #include "register.h"
 #include <iostream>
 
+Register::Register(){
+	data = 0;
+}
+
 int Register::get() {
 	return data;
 };

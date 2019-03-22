@@ -23,4 +23,11 @@ public:
 	vector<string> ReadFile(string);
 	string FetchNext();
 	void Decode(string);
+	int programLength;
+	std::bitset<32> ConvertToBinary(int val);
+
+	int ValidateInstructionCondition(string PotentialInstruct);
+	bool ValidCondition(string condition);
+	bool ValidInstruction(string instruction);
+	bool checkConditionFlag(std::string condition);
 };

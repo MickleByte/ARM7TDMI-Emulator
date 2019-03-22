@@ -16,7 +16,7 @@ private:
 	int AND(int Operand1, int Operand2); // bitwise AND comparison, returns result
 	int EOR(int Operand1, int Operand2); // bitwise XOR comparison, returns result
 	int ORR(int Operand1, int Operand2); // bitwise OR comparison, returns result
-	void CMP(int Operand1, int Operand2, Register* CPSR); // Compare equal to, updates zero flag of program status register (True if equal, False if not equal)
+	int CMP(int Operand1, int Operand2, Register* CPSR); // Compare equal to, updates zero flag of program status register (True if equal, False if not equal)
 
 
 	//Other Functions needed for Core ALU Functions (e.g. Abstraction of validation & binary conversions)

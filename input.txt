@@ -1,3 +1,6 @@
-ADD 1 2
-SUB 4 1
-MUL 2 2
+ADD 1 2 1
+CMP 1 1
+BNE #label
+SUB 4 1 2
+#label
+MUL 2 2 3

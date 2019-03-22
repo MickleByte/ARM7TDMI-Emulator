@@ -7,6 +7,7 @@ public:
 	void set(int data); //Set the value of this register
 	virtual void increment();
 	virtual void increment(int amount);
+	Register();
 };
 
 class PC : public Register{

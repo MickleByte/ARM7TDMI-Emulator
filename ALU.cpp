@@ -37,7 +37,7 @@ int ALU::Control(std::string Opcode, int Operand1, int Operand2, Register* CPSR)
 	}
 	else if (Opcode == "CMP")
 	{
-		CMP(Operand1, Operand2, CPSR);
+		ReturnVal = CMP(Operand1, Operand2, CPSR);
 	}
 	return ReturnVal;
 }
@@ -99,7 +99,7 @@ int ALU::ORR(int Operand1, int Operand2)
 	return iResult;
 }
 
-void ALU::CMP(int Operand1, int Operand2, Register* CPSR)
+int ALU::CMP(int Operand1, int Operand2, Register* CPSR)
 {
 	int iCPSR = CPSR->get(); // get int val of CPSR (R31)
 	std::bitset<32> bCPSR = ConvertToBinary(iCPSR); // converts int val of CPSR to binary value
@@ -117,6 +117,7 @@ void ALU::CMP(int Operand1, int Operand2, Register* CPSR)
 
 	iCPSR = (int)(bCPSR.to_ulong()); // convert back to int
 	CPSR->set(iCPSR); // set CPSR to new val
+	return iCPSR;
 }
 
 //Other Functions needed for Core ALU Functions (e.g. Abstraction of validation & binary conversions)
