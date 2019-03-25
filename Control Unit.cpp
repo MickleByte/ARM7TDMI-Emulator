@@ -48,7 +48,7 @@ vector<string> ControlUnit::ReadFile(string path) {
 }
 
 void ControlUnit::Decode(string ListOfIns) {
-	string SepIns[4];
+	string SepIns[4] = {"", "", "", ""};
 	string op = "";
 	int result;
 	SepIns[3] = "none";
@@ -67,8 +67,12 @@ void ControlUnit::Decode(string ListOfIns) {
 	}
 	SepIns[i] = op;
 
+	int Args[3];
+
 	for(int i = 1; i < SepIns.length; i++){
-		//SepIns[i] = getValueOfArg(SepIns[i]);
+		if(SepIns[i] != ""){
+			Args[i-1] = getValueOfArg(SepIns[i]);
+		}
 	}
 
 	//execute
@@ -92,26 +96,26 @@ void ControlUnit::Decode(string ListOfIns) {
 		case 1:
 			//Instruction valid but not condition
 			if (instruction == "STR") {
-				mem.setMemory(stoi(SepIns[1]), getRegister(stoi(SepIns[2])));
+				mem.setMemory(Args[0], getRegister(Args[1]));
 			}
 			else if (instruction == "LDR") {
-				setRegister(stoi(SepIns[2]), mem.getMemory(stoi(SepIns[1])));
+				setRegister(Args[1], mem.getMemory(Args[1]));
 			}
 			else if (instruction == "B"){
-				mem.branchTo(SepIns[1], registerArray[15]);
+				mem.branchTo(Args[0], registerArray[15]);
 			}
 			else {
-				cout << instruction << " " << SepIns[1] << " " << SepIns[2] << endl;
+				cout << instruction << " " << Args[0] << " " << Args[1] << endl;
 				// alu->Control(SepIns[0], stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]);
-				result = alu->Control(instruction, stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]);
+				result = alu->Control(instruction, Args[0], Args[1], registerArray[31]);
 				if(instruction == "CMP"){
 					registerArray[31]->set(result);
 				}
 				cout << result << endl;
 			}
 			if(SepIns[3] != "none"){
-				setRegister(stoi(SepIns[3]), result);
-				cout << "Stored in r" << SepIns[3] << endl;
+				setRegister(Args[2], result);
+				cout << "Stored in r" << Args[2] << endl;
 			}
 		break;
 
@@ -123,11 +127,16 @@ void ControlUnit::Decode(string ListOfIns) {
 }
 
 int getValueOfArg(std::string argument){
-	//if begins with r
+	if(argument[0] == 'R'){ //Lokesh
 
-	//if begins with #
+	}
+	else if(argument[0] == '#'){ //Hayden
 
-	//else
+	}
+	else{ //Dinkie
+		std::cout << "ERROR: Must include either R or # prefix" << std::endl;
+		return 0;
+	}
 }
 
 std::bitset<32> ControlUnit::ConvertToBinary(int val)
