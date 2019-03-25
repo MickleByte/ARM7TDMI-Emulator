@@ -67,6 +67,10 @@ void ControlUnit::Decode(string ListOfIns) {
 	}
 	SepIns[i] = op;
 
+	for(int i = 1; i < SepIns.length; i++){
+		//SepIns[i] = getValueOfArg(SepIns[i]);
+	}
+
 	//execute
 	int validationResult = ValidateInstructionCondition(SepIns[0]);
 	std::string instruction = SepIns[0];
@@ -116,6 +120,14 @@ void ControlUnit::Decode(string ListOfIns) {
 
 		break;
 	}
+}
+
+int getValueOfArg(std::string argument){
+	//if begins with r
+
+	//if begins with #
+
+	//else
 }
 
 std::bitset<32> ControlUnit::ConvertToBinary(int val)

@@ -25,6 +25,7 @@ public:
 	void Decode(string);
 	int programLength;
 	std::bitset<32> ConvertToBinary(int val);
+	int getValueOfArg(string);
 
 	int ValidateInstructionCondition(string PotentialInstruct);
 	bool ValidCondition(string condition);
