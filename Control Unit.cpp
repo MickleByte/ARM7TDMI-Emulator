@@ -133,7 +133,9 @@ int ControlUnit::getValueOfArg(std::string argument){
 	setRegister(argument[2],V);
 	}
 	else if(argument[0] == '#'){ //Hayden
-
+		string val = CondAndInstr.substr(1, CondAndInstr.size());
+		return stoi(val);
+		
 	}
 	else{ //Dinkie
 		std::cout << "ERROR: Must include either R or # prefix" << std::endl;
