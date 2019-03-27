@@ -1,7 +1,7 @@
 #directories
-"Reverse Debugger/bower_components"
-"Reverse Debugger/node_modules"
-"Reverse Debugger/dist"
+ReverseDebugger/bower_components
+ReverseDebugger/node_modules
+ReverseDebugger/dist
 
 #files
 *.tgz
