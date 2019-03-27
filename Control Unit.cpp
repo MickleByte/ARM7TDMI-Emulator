@@ -128,9 +128,10 @@ void ControlUnit::Decode(string ListOfIns) {
 
 int ControlUnit::getValueOfArg(std::string argument){
 	if(argument[0] == 'R'){ //Lokesh
-        int L = getRegister(argument[1]);
-        int V = mem.getMemory(L);
-	setRegister(argument[2],V);
+        string val = argument.substr(1);
+	stoi(val);
+        int L = getRegister(val);
+        return L;
 	}
 	else if(argument[0] == '#'){ //Hayden
 		string val = argument.substr(1);
