@@ -1,3 +1,10 @@
+#directories
+"Reverse Debugger/bower_components"
+"Reverse Debugger/node_modules"
+"Reverse Debugger/dist"
 
+#files
+*.tgz
+*.log
 *.exe
 *.obj
