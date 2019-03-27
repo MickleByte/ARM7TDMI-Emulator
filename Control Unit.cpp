@@ -129,8 +129,7 @@ void ControlUnit::Decode(string ListOfIns) {
 int ControlUnit::getValueOfArg(std::string argument){
 	if(argument[0] == 'R'){ //Lokesh
         string val = argument.substr(1);
-	stoi(val);
-        int L = getRegister(val);
+	int L = getRegister(stoi(val));
         return L;
 	}
 	else if(argument[0] == '#'){ //Hayden
