@@ -12,8 +12,8 @@ public:
   Memory();
   ~Memory();
   int getProgramLength();
-  std::string getNextInstruction(int pc);
-  bool branchTo(std::string label, Register* pc);
+  std::string getNextInstruction(int pc, bool);
+  bool branchTo(std::string label, Register* pc, bool);
   int getMemory(int location);
   void setMemory(int location, int value);
 };

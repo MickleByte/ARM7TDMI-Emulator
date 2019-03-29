@@ -31,8 +31,8 @@ Memory::~Memory(){
   delete &program;
 };
 
-std::string Memory::getNextInstruction(int pc){
-  std::cout << "Getting instruction at " << pc << std::endl;
+std::string Memory::getNextInstruction(int pc, bool debug){
+  if(debug) std::cout << "Getting instruction at " << pc << std::endl;
   std::string nextInstruction = program.at(pc); //Next instruction to execute is at position stored at PC
   return nextInstruction;
 };
@@ -45,13 +45,13 @@ void Memory::setMemory(int location, int value) {
   mem[location] = value;
 };
 
-bool Memory::branchTo(std::string label, Register* pc){
-  std::cout << "Searching for label: " << label << std::endl;
+bool Memory::branchTo(std::string label, Register* pc, bool debug){
+  if(debug) std::cout << "Searching for label: " << label << std::endl;
   int index = 0;
   for(auto it = program.begin(); it != program.end(); it++){
     if(*it == label){
       pc->set(index+1);
-      std::cout << "Label found at " << index << std::endl;
+      if(debug) std::cout << "Label found at " << index << std::endl;
       return true;
     }
     index++;
