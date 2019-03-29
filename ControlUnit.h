@@ -21,8 +21,8 @@ public:
 	ControlUnit();
 	~ControlUnit();
 	vector<string> ReadFile(string);
-	string FetchNext();
-	void Decode(string);
+	string FetchNext(bool);
+	void Decode(string, bool);
 	int programLength;
 	std::bitset<32> ConvertToBinary(int val);
 	int getValueOfArg(string);

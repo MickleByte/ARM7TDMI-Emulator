@@ -47,7 +47,7 @@ vector<string> ControlUnit::ReadFile(string path) {
 	return lines;
 }
 
-void ControlUnit::Decode(string ListOfIns) {
+void ControlUnit::Decode(string ListOfIns, bool debug) {
 	string SepIns[4] = {"", "", "", ""};
 	string op = "";
 	int result;
@@ -67,10 +67,10 @@ void ControlUnit::Decode(string ListOfIns) {
 	}
 	SepIns[i] = op;
 
-	int Args[3];
+	int Args[3] = {0, 0, 0};
 
-	for(int i = 1; i < SepIns.length; i++){
-		if(SepIns[i] != ""){
+	for(int i = 1; i < 4; i++){
+		if(SepIns[i] != "none" && SepIns[i] != ""){
 			Args[i-1] = getValueOfArg(SepIns[i]);
 		}
 	}
@@ -87,35 +87,40 @@ void ControlUnit::Decode(string ListOfIns) {
 			condition = SepIns[0].substr(SepIns[0].length() - 2); // last 2 letters
 			instruction = SepIns[0].substr(0, SepIns[0].size() - 2); // all but last 2 letters
 			conditionResult = checkConditionFlag(condition);
-			std::cout << "Checking condition: " << condition << std::endl;
+			if(debug) std::cout << "Checking condition: " << condition << std::endl;
 			if(!conditionResult){
-				std::cout << "Condition returned false" << std::endl;
+				if(debug) std::cout << "Condition returned false" << std::endl;
 				break;
 			}
-			std::cout << "Condition returned true" << std::endl;
+			if(debug) std::cout << "Condition returned true" << std::endl;
 		case 1:
 			//Instruction valid but not condition
 			if (instruction == "STR") {
-				mem.setMemory(Args[0], getRegister(Args[1]));
+				mem.setMemory(Args[0], Args[1]);
 			}
 			else if (instruction == "LDR") {
-				setRegister(Args[1], mem.getMemory(Args[1]));
+				setRegister(Args[0], mem.getMemory(Args[1]));
+			}
+			else if(instruction == "MOV"){
+				setRegister(Args[1], Args[0]);
 			}
 			else if (instruction == "B"){
-				mem.branchTo(Args[0], registerArray[15]);
+				mem.branchTo(SepIns[1], registerArray[15], debug);
 			}
 			else {
-				cout << instruction << " " << Args[0] << " " << Args[1] << endl;
+				if(debug) cout << instruction << " " << Args[0] << " " << Args[1] << endl;
 				// alu->Control(SepIns[0], stoi(SepIns[1]), stoi(SepIns[2]), registerArray[31]);
 				result = alu->Control(instruction, Args[0], Args[1], registerArray[31]);
 				if(instruction == "CMP"){
 					registerArray[31]->set(result);
 				}
-				cout << result << endl;
-			}
-			if(SepIns[3] != "none"){
-				setRegister(Args[2], result);
-				cout << "Stored in r" << Args[2] << endl;
+				else{
+					cout << result << endl;
+				}
+				if(SepIns[3] != "none"){
+					setRegister(Args[2], result);
+					if(debug) cout << "Stored in r" << Args[2] << endl;
+				}
 			}
 		break;
 
@@ -127,15 +132,28 @@ void ControlUnit::Decode(string ListOfIns) {
 }
 
 int ControlUnit::getValueOfArg(std::string argument){
-	if(argument[0] == 'R'){ //Lokesh
-        string val = argument.substr(1);
-	int L = getRegister(stoi(val));
-        return L;
-	}
-	else if(argument[0] == '#'){ //Hayden
+	if(argument.at(0) == 'R' || argument.at(0) == 'r'){ //Lokesh
 		string val = argument.substr(1);
-		return stoi(val);
-		
+		int toReturn = 0;
+		try{
+			toReturn = stoi(val);
+		}
+		catch(exception err){
+			return 0;
+		}
+		toReturn = getRegister(toReturn);
+    return toReturn;
+	}
+	else if(argument.at(0) == '#'){ //Hayden
+		string val = argument.substr(1);
+		int toReturn = 0;
+		try{
+			toReturn = stoi(val);
+		}
+		catch(exception err){
+			return 0;
+		}
+		return toReturn;
 	}
 	else{ //Dinkie
 		std::cout << "ERROR: Must include either R or # prefix" << std::endl;
@@ -206,8 +224,8 @@ bool ControlUnit::checkConditionFlag(std::string condition){
 	return false;
 }
 
-string ControlUnit::FetchNext(){
-	string nextInstruction = mem.getNextInstruction(registerArray[15]->get());
+string ControlUnit::FetchNext(bool debug){
+	string nextInstruction = mem.getNextInstruction(registerArray[15]->get(), debug);
 	registerArray[15]->increment();
 	return nextInstruction;
 }
