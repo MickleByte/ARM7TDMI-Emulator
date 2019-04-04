@@ -35,7 +35,13 @@ int main(int arg){
       memoryLog << cu->getMemory(ii) << " ";
     }
     for(int ii = 0; ii < 37; ii++){
-      registerLog << cu->getRegister(ii) << " ";
+      if(ii != 31){
+        registerLog << cu->getRegister(ii) << " ";
+      }
+      else{
+        std::bitset<32> PSR = cu->getRegister(ii);
+        registerLog << PSR << " ";
+      }
     }
     memoryLog << std::endl;
     registerLog << std::endl;

@@ -3,9 +3,30 @@ var assemblyLog;
 var memoryLog;
 var registerLog;
 var index = 0;
+var buttons;
 
 window.onload = () => {
   readLogs();
+  document.getElementById("back5").onclick = function(){
+    index += parseInt(document.getElementById("back5").dataset.value);
+    writeLogs(index);
+  }
+  document.getElementById("back").onclick = function(){
+    index += parseInt(document.getElementById("back").dataset.value);
+    writeLogs(index);
+  }
+  document.getElementById("step").onclick = function(){
+    index += parseInt(document.getElementById("step").dataset.value);
+    writeLogs(index);
+  }
+  document.getElementById("step5").onclick = function(){
+    index += parseInt(document.getElementById("step5").dataset.value);
+    writeLogs(index);
+  }
+  document.getElementById("step10").onclick = function(){
+    index += parseInt(document.getElementById("step10").dataset.value);
+    writeLogs(index);
+  }
 }
 
 async function readLogs(){
@@ -40,6 +61,7 @@ function drawLogs(){
 }
 
 function writeLogs(index){
+  console.log(index);
   if(index < 0){
     index = 0;
   }
@@ -54,7 +76,7 @@ function writeLogs(index){
   }
   for(var i = 0; i < assemblyLog.length; i++){
     document.getElementById(`asm${i}`).innerHTML = assemblyLog[i];
-    if(i == index){
+    if(i == parseInt(document.getElementById("reg15").innerHTML)-1){
       document.getElementById(`asm${i}`).style.background = "#7289DA";
       document.getElementById(`asm${i}`).style.color = "#FFFFFF";
     }

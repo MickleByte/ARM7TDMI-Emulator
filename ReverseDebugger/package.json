@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Reverse Debugger for the ARM7TDMI instruction set emulator",
   "main": "main.js",
-  "dependencies": {
-    "jquery": "^3.3.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "electron": "^4.1.1"
   },
