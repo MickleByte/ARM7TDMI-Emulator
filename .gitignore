@@ -1,3 +1,10 @@
+#directories
+ReverseDebugger/bower_components
+ReverseDebugger/node_modules
+ReverseDebugger/dist
 
+#files
+*.tgz
+*.log
 *.exe
 *.obj

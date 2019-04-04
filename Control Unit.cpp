@@ -11,6 +11,10 @@ int ControlUnit::getRegister(int registerNumber) {
 	return registerArray[registerNumber]->get();
 };
 
+int ControlUnit::getMemory(int location){
+	return mem.getMemory(location);
+}
+
 ControlUnit::ControlUnit() {
 	for(int i = 0; i < 37; i++){
 		if(i == 15){

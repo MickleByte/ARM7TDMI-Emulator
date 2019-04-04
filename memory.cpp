@@ -19,7 +19,9 @@ Memory::Memory(){ //Constructor for Memory object
   }
   file.close(); //Close file after use
 
-  mem.reserve(1024);
+  for(int i = 0; i < 1024; i++){
+    mem.push_back(0);
+  }
 };
 
 int Memory::getProgramLength(){

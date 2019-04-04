@@ -26,6 +26,7 @@ public:
 	int programLength;
 	std::bitset<32> ConvertToBinary(int val);
 	int getValueOfArg(string);
+	int getMemory(int location);
 
 	int ValidateInstructionCondition(string PotentialInstruct);
 	bool ValidCondition(string condition);

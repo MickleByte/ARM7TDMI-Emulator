@@ -2,6 +2,7 @@
 #include "ALU.h"
 #include "ControlUnit.h"
 #include "memory.h"
+#include <fstream>
 
 int main(int arg){
   ControlUnit* cu = new ControlUnit();
@@ -13,8 +14,37 @@ int main(int arg){
     debug = false;
   }
 
+  std::ofstream registerLog;
+  std::ofstream memoryLog;
+  std::ofstream assemblyLog;
+
+  registerLog.open("registerLog.log", std::ofstream::out | std::ofstream::trunc);
+  memoryLog.open("memoryLog.log", std::ofstream::out | std::ofstream::trunc);
+  assemblyLog.open("assemblyLog.log", std::ofstream::out | std::ofstream::trunc);
+
+  for(int i = 0; i < cu->programLength; i++){
+    assemblyLog << cu->FetchNext(true) << std::endl;
+  }
+
+  cu->setRegister(15, 0);
+
   for(int i = 0; cu->getRegister(15) < cu->programLength; i++){
-    cu->Decode(cu->FetchNext(debug), debug);
+    std::string nextInstruction = cu->FetchNext(debug);
+    cu->Decode(nextInstruction, debug);
+    for(int ii = 0; ii < 1024; ii++){
+      memoryLog << cu->getMemory(ii) << " ";
+    }
+    for(int ii = 0; ii < 37; ii++){
+      if(ii != 31){
+        registerLog << cu->getRegister(ii) << " ";
+      }
+      else{
+        std::bitset<32> PSR = cu->getRegister(ii);
+        registerLog << PSR << " ";
+      }
+    }
+    memoryLog << std::endl;
+    registerLog << std::endl;
   }
 
   return 0;
