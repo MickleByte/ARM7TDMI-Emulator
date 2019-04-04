@@ -18,9 +18,15 @@ int main(int arg){
   std::ofstream memoryLog;
   std::ofstream assemblyLog;
 
-  registerLog.open("registerLog.log", std::ofstream::out | std::ofstream::app);
-  memoryLog.open("memoryLog.log", std::ofstream::out | std::ofstream::app);
-  assemblyLog.open("assemblyLog.log", std::ofstream::out | std::ofstream::app);
+  registerLog.open("registerLog.log", std::ofstream::out | std::ofstream::trunc);
+  memoryLog.open("memoryLog.log", std::ofstream::out | std::ofstream::trunc);
+  assemblyLog.open("assemblyLog.log", std::ofstream::out | std::ofstream::trunc);
+
+  for(int i = 0; i < cu->programLength; i++){
+    assemblyLog << cu->FetchNext(true) << std::endl;
+  }
+
+  cu->setRegister(15, 0);
 
   for(int i = 0; cu->getRegister(15) < cu->programLength; i++){
     std::string nextInstruction = cu->FetchNext(debug);
@@ -33,7 +39,6 @@ int main(int arg){
     }
     memoryLog << std::endl;
     registerLog << std::endl;
-    assemblyLog << nextInstruction << std::endl;
   }
 
   return 0;

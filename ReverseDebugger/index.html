@@ -1,19 +1,25 @@
 <!DOCTYPE html>
+<html>
+  <head>
+    <title>Reverse Debugger</title>
+  	<link rel="stylesheet" href="styles.css" type="text/css">
+    <script>require('./functions.js');</script>
+  </head>
 
-<head>
-  <title>Reverse Debugger</title>
-	<link rel="stylesheet" href="styles.css" type="text/css">
-  <script>win.$ = win.jQuery = require('jquery');</script>
-</head>
-
-<body>
-  <h1>ARM7-TDMI Reverse Debugger</h1>
-  <div id="memory">
-  </div>
-  <div id="assembly">
-  </div>
-  <div id="registers">
-  </div>
-  <div id="controls">
-  </div>
-</body>
+  <body>
+    <h1>ARM7-TDMI Reverse Debugger</h1>
+    <div id="memory">
+    </div>
+    <div id="registers">
+    </div>
+    <div id="assembly">
+    </div>
+    <div id="controls">
+      <button type="button" onclick="writeLogs(index-5)">Back 5</button>
+      <button type="button" onclick="writeLogs(index-1)">Back</button>
+      <button type="button" onclick="writeLogs(index+1)">Step</button>
+      <button type="button" onclick="writeLogs(index+5)">Step 5</button>
+      <button type="button" onclick="writeLogs(index+10)">Step 10</button>
+    </div>
+  </body>
+</html>
