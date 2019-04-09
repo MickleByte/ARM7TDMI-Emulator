@@ -49,19 +49,18 @@ function splitLogs(){
 
 function drawLogs(){
   for(var i = 0; i < memoryLog[0].length; i++){
-    document.getElementById("memory").innerHTML += `<div id=mem${i}></div>`;
+    document.getElementById("memory").innerHTML += `<div id=mem${i} class="tooltip" onclick="toggleClicked(this)" data-index=${i}></div>`;
   }
   for(var i = 0; i < registerLog[0].length - 1; i++){
-    document.getElementById("registers").innerHTML += `<div id=reg${i}></div>`;
+    document.getElementById("registers").innerHTML += `<div id=reg${i} class="tooltip" onclick="toggleClicked(this)" data-index=${i}></div>`;
   }
   for(var i = 0; i < assemblyLog.length; i++){
-    document.getElementById("assembly").innerHTML += `<div id=asm${i}></div>`;
+    document.getElementById("assembly").innerHTML += `<div id=asm${i} class="tooltip" onclick="toggleClicked(this)" data-index=${i}></div>`;
   }
   writeLogs(0);
 }
 
 function writeLogs(index){
-  console.log(index);
   if(index < 0){
     index = 0;
   }
@@ -69,13 +68,13 @@ function writeLogs(index){
     index = memoryLog.length-1;
   }
   for(var i = 0; i < memoryLog[index].length; i++){
-    document.getElementById(`mem${i}`).innerHTML = memoryLog[index][i];
+    document.getElementById(`mem${i}`).innerHTML = `<span class="tooltiptext">${i}</span>` +  memoryLog[index][i];
   }
   for(var i = 0; i < registerLog[index].length - 1; i++){
-    document.getElementById(`reg${i}`).innerHTML = registerLog[index][i];
+    document.getElementById(`reg${i}`).innerHTML = `<span class="tooltiptext">${i}</span>` +  registerLog[index][i];
   }
   for(var i = 0; i < assemblyLog.length; i++){
-    document.getElementById(`asm${i}`).innerHTML = assemblyLog[i];
+    document.getElementById(`asm${i}`).innerHTML = `<span class="tooltiptext">${i}</span>` + assemblyLog[i];
     if(i == parseInt(document.getElementById("reg15").innerHTML)-1){
       document.getElementById(`asm${i}`).style.background = "#7289DA";
       document.getElementById(`asm${i}`).style.color = "#FFFFFF";
