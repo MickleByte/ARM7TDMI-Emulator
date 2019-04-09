@@ -1,0 +1,26 @@
+{
+  "name": "reverse-debugger",
+  "version": "1.0.0",
+  "description": "Reverse Debugger for the ARM7TDMI instruction set emulator",
+  "main": "main.js",
+  "dependencies": {
+    "electron-winstaller": "^3.0.4"
+  },
+  "devDependencies": {
+    "electron": "^4.1.1"
+  },
+  "scripts": {
+    "test": "test",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DinkieShy/gp29.git"
+  },
+  "author": "DinkieShy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DinkieShy/gp29/issues"
+  },
+  "homepage": "https://github.com/DinkieShy/gp29#readme"
+}

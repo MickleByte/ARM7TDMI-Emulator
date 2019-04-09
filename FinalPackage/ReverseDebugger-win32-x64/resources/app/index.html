@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reverse Debugger</title>
+  	<link rel="stylesheet" href="styles.css" type="text/css">
+    <script>require('./functions.js');</script>
+  </head>
+
+  <body>
+    <h1>ARM7-TDMI Reverse Debugger</h1>
+    <div id="memory">
+    </div>
+    <div id="registers">
+    </div>
+    <div id="assembly">
+    </div>
+    <div id="controls">
+      <button type="button" data-value=-5 id="back5">Back 5</button>
+      <button type="button" data-value=-1 id="back">Back</button>
+      <button type="button" data-value=1 id="step">Step</button>
+      <button type="button" data-value=5 id="step5">Step 5</button>
+      <button type="button" data-value=10 id="step10">Step 10</button>
+    </div>
+  </body>
+
+  <script>
+    function toggleClicked(element){
+      element.classList.toggle('clicked');
+    }
+  </script>
+
+</html>

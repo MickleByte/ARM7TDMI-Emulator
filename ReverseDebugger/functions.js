@@ -30,9 +30,9 @@ window.onload = () => {
 }
 
 async function readLogs(){
-  memoryLog = await fs.readFileSync("..\\memoryLog.log").toString().split("\n");
-  registerLog = await fs.readFileSync("..\\registerLog.log").toString().split("\n");
-  assemblyLog = await fs.readFileSync("..\\assemblyLog.log").toString().split("\n");
+  memoryLog = await fs.readFileSync(".\\memoryLog.log").toString().split("\n");
+  registerLog = await fs.readFileSync(".\\registerLog.log").toString().split("\n");
+  assemblyLog = await fs.readFileSync(".\\assemblyLog.log").toString().split("\n");
 
   splitLogs();
 }

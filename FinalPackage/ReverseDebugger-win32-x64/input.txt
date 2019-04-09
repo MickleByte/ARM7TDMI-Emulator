@@ -1,0 +1,15 @@
+MOV #1 #0
+MOV #1 #1
+MOV #2 #3
+STR #0 #1
+STR #1 #1
+MOV #25 #5
+CMP R4 R5
+#start
+STR R4 R0
+ADD R0 R1 #3
+MOV R1 #0
+MOV R3 #1
+ADD #1 R4 #4
+CMP R4 R5
+BNE #start
