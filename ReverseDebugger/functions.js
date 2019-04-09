@@ -75,7 +75,7 @@ function writeLogs(index){
   }
   for(var i = 0; i < assemblyLog.length; i++){
     document.getElementById(`asm${i}`).innerHTML = `<span class="tooltiptext">${i}</span>` + assemblyLog[i];
-    if(i == parseInt(document.getElementById("reg15").innerHTML)-1){
+    if(i == registerLog[index][15]-1){
       document.getElementById(`asm${i}`).style.background = "#7289DA";
       document.getElementById(`asm${i}`).style.color = "#FFFFFF";
     }
